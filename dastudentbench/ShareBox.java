@@ -19,10 +19,11 @@ import javax.swing.JOptionPane;
  * @author infinite
  */
 public class ShareBox extends javax.swing.JFrame {
-
+FileClient cl;
     /** Creates new form ShareBox */
-    public ShareBox() {
+    public ShareBox(FileClient fc) {
         initComponents();
+        cl=fc;
     }
 
 
@@ -51,11 +52,11 @@ public class ShareBox extends javax.swing.JFrame {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Improve your share! Upload a file");
 
-        jLabel2.setFont(new java.awt.Font("FreeSerif", 3, 36)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("FreeSerif", 3, 36));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dropBOx.jpeg"))); // NOI18N
         jLabel2.setText("    Share Box");
 
@@ -74,13 +75,13 @@ public class ShareBox extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(181, 181, 181))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(210, Short.MAX_VALUE)
+                .addContainerGap(299, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(195, 195, 195))
             .addGroup(layout.createSequentialGroup()
                 .addGap(128, 128, 128)
                 .addComponent(jLabel1)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,8 +110,8 @@ final JFileChooser fc = new JFileChooser();
      if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             //This is where a real application would open the file.
-             FileClient cl=new FileClient();
-            cl.connect();
+             //FileClient cl=new FileClient();
+            //cl.connect();
             cl.sendFile(file.getAbsolutePath());
            System.out.println("Sending: " + file.getAbsolutePath() );
               jDialog1.dispose();
@@ -152,12 +153,12 @@ final JFileChooser fc = new JFileChooser();
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        //java.awt.EventQueue.invokeLater(new Runnable() {
 
-            public void run() {
-                new ShareBox().setVisible(true);
-            }
-        });
+          //  public void run() {
+            //    new ShareBox().setVisible(true);
+            //}
+       // });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

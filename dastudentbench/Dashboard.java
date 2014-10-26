@@ -10,15 +10,26 @@
  */
 package dastudentbench;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author infinite
  */
-public class Dashboard extends javax.swing.JFrame {
 
-    /** Creates new form Dashboard */
+public class Dashboard extends javax.swing.JFrame {
+public  FileClient cl;
+public static ResourcePool rp;  
+/** Creates new form Dashboard */
     public Dashboard() {
         initComponents();
+        cl=new FileClient();
+        cl.connect();
     }
 
     /** This method is called from within the constructor to
@@ -35,13 +46,14 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DAIICT Student Bench");
         setBackground(java.awt.Color.white);
         setForeground(new java.awt.Color(193, 75, 75));
 
-        jLabel1.setFont(new java.awt.Font("FreeSerif", 3, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("FreeSerif", 3, 36));
         jLabel1.setText("Welcome !");
 
         jLabel2.setFont(new java.awt.Font("FreeSerif", 1, 36)); // NOI18N
@@ -56,6 +68,13 @@ public class Dashboard extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("My Share Box");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -79,7 +98,8 @@ public class Dashboard extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE))
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(45, 45, 45))))
         );
         layout.setVerticalGroup(
@@ -98,7 +118,9 @@ public class Dashboard extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         pack();
@@ -106,14 +128,38 @@ public class Dashboard extends javax.swing.JFrame {
 
 private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 // TODO add your handling code here:
-ResourcePool rp=new ResourcePool();
+System.out.println("Am I doing something???");
+rp=new ResourcePool(cl);
+rp.setVisible(true);
+
+ArrayList<Object[]> al=cl.fetchRecords();
+ DefaultTableModel tm= (DefaultTableModel)rp.getTable().getModel(); 
+ int sz= al.size();
+System.out.println("size:"+sz);
+        for(int i=0; i<sz; i++)
+        { 
+        
+            tm.addRow(al.get(i));
+           
+        }
+System.out.println("Mostly yes.");
+          
 
 }//GEN-LAST:event_jButton2ActionPerformed
+
+private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+// TODO add your handling code here:
+ShareBox sb=new ShareBox(cl);
+sb.setVisible(true);
+
+}//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        // cl=new FileClient();
+               //cl.connect();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -141,13 +187,16 @@ ResourcePool rp=new ResourcePool();
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new Dashboard().setVisible(true);
+                
+              
+               new Dashboard().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

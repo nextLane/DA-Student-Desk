@@ -13,22 +13,30 @@ package dastudentbench;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author infinite
  */
-
 public class ResourcePool extends javax.swing.JFrame {
+
     private Socket socket = null;
     private ObjectOutputStream outputStream = null;
     private boolean isConnected = false;
+    FileClient cl;
     /** Creates new form ResourcePool */
-    public ResourcePool() {
+    public ResourcePool(FileClient fc) {
         initComponents();
+        cl=fc;
     }
+
+    public JTable getTable() {
+        return jTable1;
+    }
+
     public void connect() {
         while (!isConnected) {
             try {
@@ -40,11 +48,6 @@ public class ResourcePool extends javax.swing.JFrame {
             }
         }
     }
-    public void fetchData()
-{
-   DefaultTableModel tm= (DefaultTableModel)jTable1.getModel();  
-   //ResultSet rs= 
-}
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -63,15 +66,22 @@ public class ResourcePool extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "File ", "Size", "Uploader", "At", "Download"
+                "File ", "Size", "Uploader", "At"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTable1KeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -110,41 +120,69 @@ public class ResourcePool extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+private void jTable1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyPressed
+// TODO add your handling code here:
+ 
+       
+}//GEN-LAST:event_jTable1KeyPressed
+
+private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+// TODO add your handling code here:
+
+  
+    DefaultTableModel tm=(DefaultTableModel)jTable1.getModel();
+       int t=jTable1.getSelectedRow();
+       String b=(String) jTable1.getValueAt(t, 0);
+       System.out.println("file selected:"+b);
+         int ret=JOptionPane.showConfirmDialog(null, "Do you wish to download this file?");
+        // JOptionPane.showConfirmDialog(null, "Download this file?");
+         if(ret==JOptionPane.YES_OPTION) 
+         {   System.out.println("request bhej riya si ...");
+        // FileClient cl=new FileClient();
+//         cl.connect();   
+         cl.receiveFile(b);
+         }  
+      //  fc.receiveFile(b);
+
+
+}//GEN-LAST:event_jTable1MouseClicked
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+ //   public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ResourcePool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ResourcePool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ResourcePool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ResourcePool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+//        try {
+  //          for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+    //            if ("Nimbus".equals(info.getName())) {
+      //              javax.swing.UIManager.setLookAndFeel(info.getClassName());
+        //            break;
+          //      }
+            //}
+        //} catch (ClassNotFoundException ex) {
+          //  java.util.logging.Logger.getLogger(ResourcePool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        //} catch (InstantiationException ex) {
+          //  java.util.logging.Logger.getLogger(ResourcePool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        //} catch (IllegalAccessException ex) {
+          //  java.util.logging.Logger.getLogger(ResourcePool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        //} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+          //  java.util.logging.Logger.getLogger(ResourcePool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        //}
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+   //     java.awt.EventQueue.invokeLater(new Runnable() {
 
-            public void run() {
-                new ResourcePool().setVisible(true);
-            }
-        });
-    }
+     //       public void run() {
+       //         new ResourcePool().setVisible(true);
+         //   }
+        //});
+    //}
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
