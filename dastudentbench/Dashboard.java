@@ -24,14 +24,18 @@ import javax.swing.table.DefaultTableModel;
 
 public class Dashboard extends javax.swing.JFrame {
 public  FileClient cl;
+public ChatRoom cr;
+public DAChatRoomApp dcr;
 public static ResourcePool rp;  
 /** Creates new form Dashboard */
     public Dashboard() {
         initComponents();
         cl=new FileClient();
         cl.connect();
+        cr=new ChatRoom();
+       dcr=new DAChatRoomApp(cr);
     }
-
+        
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -56,13 +60,18 @@ public static ResourcePool rp;
         jLabel1.setFont(new java.awt.Font("FreeSerif", 3, 36));
         jLabel1.setText("Welcome !");
 
-        jLabel2.setFont(new java.awt.Font("FreeSerif", 1, 36)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("FreeSerif", 1, 36));
         jLabel2.setText("DAIICT Student Desk");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dastudentbench/index.jpeg"))); // NOI18N
         jLabel3.setText("jLabel3");
 
         jButton1.setText("Take me to Chat Hub");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Resource Pool");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +163,16 @@ sb.setVisible(true);
 
 }//GEN-LAST:event_jButton3ActionPerformed
 
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+cr.setVisible(true);
+//System.out.println("siyyappa");
+
+
+dcr.in(cr);
+        // TODO add your handling code here:
+}//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -181,6 +200,7 @@ sb.setVisible(true);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+     
         //</editor-fold>
 
         /* Create and display the form */
@@ -188,11 +208,11 @@ sb.setVisible(true);
 
             public void run() {
                 
-              
                new Dashboard().setVisible(true);
             }
         });
     }
+      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
